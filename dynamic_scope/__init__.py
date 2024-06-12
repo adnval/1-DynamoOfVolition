@@ -30,5 +30,9 @@ class DynamicScope(abc.Mapping):
 
 
 def get_dynamic_re() -> DynamicScope:
-    referenceEnvironment = DynamicScope()
-    return referenceEnvironment
+    refEnvironment = DynamicScope()
+    for statement in inspect.stack():
+        frameVars = statement[0].f_locals
+        for var in frameVars:
+            refEnvironment[var] = frameVars[var]
+    return refEnvironment
