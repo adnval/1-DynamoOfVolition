@@ -32,9 +32,11 @@ class DynamicScope(abc.Mapping):
 def get_dynamic_re() -> DynamicScope:
     refEnvironment = DynamicScope()
     for statement in inspect.stack():
+        # Gets the dictionary of variables for the function
         frameVars = statement[0].f_locals
         for var in frameVars:
-            if frameVars[var] is None:
+            # Checks to omit the variable if it is of NoneType
+            if frameVars[var] is None or var in refEnvironment.env:
                 continue
             refEnvironment[var] = frameVars[var]
     return refEnvironment
