@@ -34,5 +34,7 @@ def get_dynamic_re() -> DynamicScope:
     for statement in inspect.stack():
         frameVars = statement[0].f_locals
         for var in frameVars:
+            if frameVars[var] is None:
+                continue
             refEnvironment[var] = frameVars[var]
     return refEnvironment
