@@ -34,6 +34,9 @@ def get_dynamic_re() -> DynamicScope:
     for statement in inspect.stack():
         # Gets the dictionary of variables for the function
         frameVars = statement[0].f_locals
+        # Checks to omit get_dynamic_re itself
+        if "refEnvironment" in frameVars:
+            continue
         for var in frameVars:
             # Checks to omit the variable if it is of NoneType
             if frameVars[var] is None or var in refEnvironment.env:
